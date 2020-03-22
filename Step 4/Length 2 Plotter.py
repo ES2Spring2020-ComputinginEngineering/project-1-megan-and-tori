@@ -97,7 +97,6 @@ plt.show()
 y_pks, _ = sig.find_peaks(y_filt, height = 140, distance = 20)
 
 
-
 #Count the amount of y peaks
 count_y = []
 for j in y_pks:
