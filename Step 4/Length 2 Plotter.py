@@ -14,11 +14,11 @@ path = "C:/Users/Victoria/Documents/GitHub/project-1-megan-and-tori/Step 4"
 os.chdir(path)
 
 def period(count,list):
-    for i in range(len(count_x)):
-        if i+1 >= 30:
+    for i in range(len(count)):
+        if i+1 >= len(count):
             break
         else:
-            diff=abs(count_x[i+1] - count_x[i])
+            diff = abs(count[i+1] - count[i])
             list.append(diff)
     return list
         
@@ -62,8 +62,7 @@ for ln in fin: #putting data into 4 lists
     find_angle_from_horizontal(temp) 
 
 fin.close()
-print('This is theta', end = '\n')
-print(theta)
+
 
 # Apply median filter to all waves
 x_filt = sig.medfilt(x_accel)
@@ -84,7 +83,7 @@ plt.figure(3)
 plt.plot(np.array(timez), np.array(z_filt), 'b-')#, 'r-', np.array(timez[x_pks]), np.array(x_filt[x_pks]), 'b.')
 plt.title('Z Acceleration vs Time')
 
-#Also having issues w this bc function isn't working
+#Plots theta vs time
 plt.figure(4)
 plt.plot(np.array(timez), np.array(theta), 'r-')
 plt.title('Theta vs Time')
@@ -93,27 +92,16 @@ plt.tight_layout()
 plt.show()
 
 
-# Find peaks of all waves
-x_pks, _ = sig.find_peaks(x_filt)
-y_pks, _ = sig.find_peaks(y_accel)
-z_pks, _ = sig.find_peaks(z_accel)
+# Find peaks of y wave since y is the direction of motion
+#NOTE: height and distance varies based on data (and false peaks in data)
+y_pks, _ = sig.find_peaks(y_filt, height = 140, distance = 20)
 
-#Counts the amount of x peaks
-count_x = []
-for j in x_pks:
-       count_x.append(x_filt[j])
 
-#Finds average period of x wave 
-period_x = []
-period(count_x, period_x)
-print('The average x period is', end = ' ')
-print(round(avg(period_x), 2))
 
-      
 #Count the amount of y peaks
 count_y = []
 for j in y_pks:
-        count_y.append(x_filt[j])
+        count_y.append(timez[j])
 
 #Finds average period of y wave        
 period_y = []
