@@ -1,5 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#Project 1 Part 4
+#Experimental Period Calculations
+#*****************************************
+# YOUR NAME: Victoria Pontikes and Megan Houchin
+# NUMBER OF HOURS TO COMPLETE: 20 minutes
+
 """
 Created on Tue Mar  3 18:10:17 2020
 @author: megan
