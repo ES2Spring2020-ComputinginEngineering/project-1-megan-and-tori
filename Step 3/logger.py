@@ -1,10 +1,16 @@
-##################
-# Megan and Tori
-#################
-
+# PROJECT 1: PART 3 LOGGER--- ES2
+#*****************************************
+#
+# YOUR NAME: Megan Houchin and Victoria Pontikes
+# NUMBER OF HOURS TO COMPLETE: 2 hours (please estimate how long this homework takes you to complete).
+#*****************************************
+#this script collects data about the microbit's acceraltions in the x, y, and z directions at specific times and sends them as a string to another microbit
+#on the same channel using radio
+#import statements
 import microbit as mb
-import radio  # Needs to be imported separately
-# Change the channel if other microbits are interfering. (Default=7)
+import radio
+
+#main
 radio.on()  # Turn on radio
 radio.config(channel=14, length=100)
 
@@ -22,11 +28,8 @@ mb.display.show(mb.Image.HEART)  # Display Heart while logging
 
 # Read and send accelerometer data repeatedly until button B is pressed again
 while not mb.button_b.is_pressed():
-    # Need to collect accelerometer and time measurements
-    # Need to format into a single string
-    # Send the string over the radio
+    # Send the string of accelerometer and time measurements over the radio
     message = str(mb.running_time()-time0) + ', ' + str(mb.accelerometer.get_x()) + ', ' + str(mb.accelerometer.get_y()) + ', ' + str(mb.accelerometer.get_z())
-    #print(message)
     radio.send(message)
     mb.sleep(10)
 

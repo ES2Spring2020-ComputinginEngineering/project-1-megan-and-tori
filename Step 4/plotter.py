@@ -1,124 +1,114 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Tue Mar  3 18:10:17 2020
-
 @author: megan
 """
 
 import matplotlib.pyplot as plt
 import numpy as np
+import math
 import scipy.signal as sig
 import os
 path = "/Users/megan/Documents/GitHub/project-1-megan-and-tori/Step 4"
 os.chdir(path)
 
+def period(count,list):
+    for i in range(len(count)):
+        if i+1 >= len(count):
+            break
+        else:
+            diff = abs(count[i+1] - count[i])
+            list.append(diff)
+    return list
+        
+def avg(list):
+    add = 0
+    for i in list:
+        add = add + i
+    return add/(len(list))
+
+def find_angle_from_horizontal(list):
+    #due to our microbit orientation, the horizontal is dependent on y so all calculations will be based on y
+    acc_x = float(list[1])
+    acc_y = float(list[2])
+    acc_z = float(list[3])
+    top = acc_y 
+    #the equation has the y acceleration on the top, and we are going to index a list with all the original values to find y accel
+    #since the original list is [time, x accel, y accel, z accel], we index accordingly
+    bottom = math.sqrt((acc_x)**2 +(acc_z)**2)
+    tilt_angle = math.atan2(top, bottom)
+    tiltY = (tilt_angle * 180) / math.pi
+    theta.append(tiltY)
+    #theta is initialized above the function call
+    
 
 fin = open('test data 4.csv',"r")
-line = fin.readline()
-#print(line)
 
 timez = []
 x_accel = []
 y_accel = []
 z_accel = []
+theta = []
+
 for ln in fin: #putting data into 4 lists
-    temp = ln.split(',')
+    temp1 = ln.strip()
+    temp = temp1.split(',')
     timez.append(float(temp[0]))
     x_accel.append(float(temp[1]))
     y_accel.append(float(temp[2]))
     z_accel.append(float(temp[3]))
+    
+    find_angle_from_horizontal(temp) 
 
-plt.figure(1)
-# Plot waveforms and their peaks
-plt.plot(timez, x_accel, 'r-')
-plt.title('X-Acceleration by Time')
+fin.close()
 
-plt.figure(2)
-plt.plot(timez, y_accel, 'b-')
-plt.title('Y-Acceleration by Time')
 
-plt.figure(3)
-plt.plot(timez, z_accel, 'g-')
-plt.title('Z_Acceleration by Time')
-
-# Apply median filter to both original and noisy wave
+# Apply median filter to all waves
 x_filt = sig.medfilt(x_accel)
 y_filt = sig.medfilt(y_accel)
 z_filt = sig.medfilt(z_accel)
+          
+            
+#Plot waves of accelerations vs time
+plt.figure(1)
+plt.plot(np.array(timez), np.array(x_filt,), 'r-')#, 'r-', np.array(timez[x_pks]), np.array(x_filt[x_pks]), 'b.')
+plt.title('X Acceleration vs Time')
 
-# Find peaks of all waves
-x_pks, _ = sig.find_peaks(x_filt)
-y_pks, _ = sig.find_peaks(y_accel)
-z_pks, _ = sig.find_peaks(z_accel)
+plt.figure(2)
+plt.plot(np.array(timez), np.array(y_filt), 'g-')#, 'r-', np.array(timez[x_pks]), np.array(x_filt[x_pks]), 'b.')
+plt.title('Y Acceleration vs Time')
 
+plt.figure(3)
+plt.plot(np.array(timez), np.array(z_filt), 'b-')#, 'r-', np.array(timez[x_pks]), np.array(x_filt[x_pks]), 'b.')
+plt.title('Z Acceleration vs Time')
 
-plt.tight_layout()
-plt.show()
-
-count = 0
-for i in range(370):
-    for j in range(21):
-        if x_accel[i] == x_pks[j]:
-            count += 1
-
- #Plot waveforms and their peaks
+#Plots theta vs time
 plt.figure(4)
-plt.plot(timez, x_filt, 'r-') #, timez[x_pks], x_filt[x_pks], 'b.'
-plt.plot(timez, x_pks, 'b.')
-plt.title('Original')
-#plt.subplot(2,2,2)
-#plt.plot(time, y_noisy, 'r-', time[y_noisy_pks], y_noisy[y_noisy_pks], 'b.')
-#plt.title('Noisy')
-#
-#plt.subplot(2,2,3)
-#plt.plot(time, y_filt, 'r-', time[y_filt_pks], y_filt[y_filt_pks], 'b.')
-#plt.title('Original Median Filtered')
-#plt.subplot(2,2,4)
-#plt.plot(time, y_noisy_filt,'r-', time[y_noisy_filt_pks], y_noisy_filt[y_noisy_filt_pks], 'b.')
-#plt.title('Noisy Median Filtered')
+plt.plot(np.array(timez), np.array(theta), 'r-')
+plt.title('Theta vs Time')
 
 plt.tight_layout()
 plt.show()
 
 
+# Find peaks of y wave since y is the direction of motion
+#NOTE: height and distance varies based on data (and false peaks in data)
+y_pks, _ = sig.find_peaks(y_filt, height = 140, distance = 20)
 
 
-time = np.arange(1,15,0.1) # create array with start, stop, and step size (similar concept to indices for list slicing)
-y = np.cos(time)
-
-# don't worry too much about this, but I'm adding random noise to the sine wave
-
-#y_noisy = y + noise
-#noise = 0.3 * (np.random.rand(time.size) - 0.5)
+#Count the amount of y peaks
+count_y = []
+for j in y_pks:
+        count_y.append(timez[j])
 
 
-# Apply median filter to both original and noisy wave
-#y_filt = sig.medfilt(y)
-#y_noisy_filt = sig.medfilt(y_noisy)
-#
-## Find peaks of all waves
-#y_pks, _ = sig.find_peaks(y)
-#y_noisy_pks, _ = sig.find_peaks(y_noisy)
-#y_filt_pks, _ = sig.find_peaks(y_filt)
-#y_noisy_filt_pks, _ = sig.find_peaks(y_noisy_filt)
 
 
-# Plot waveforms and their peaks
-#plt.subplot(2,2,1)
-#plt.plot(timez, x_accel, 'r-', time[y_pks], y[y_pks], 'b.')
-#plt.title('Original')
-#plt.subplot(2,2,2)
-#plt.plot(time, y_noisy, 'r-', time[y_noisy_pks], y_noisy[y_noisy_pks], 'b.')
-#plt.title('Noisy')
-#
-#plt.subplot(2,2,3)
-#plt.plot(time, y_filt, 'r-', time[y_filt_pks], y_filt[y_filt_pks], 'b.')
-#plt.title('Original Median Filtered')
-#plt.subplot(2,2,4)
-#plt.plot(time, y_noisy_filt,'r-', time[y_noisy_filt_pks], y_noisy_filt[y_noisy_filt_pks], 'b.')
-#plt.title('Noisy Median Filtered')
-#
-#plt.tight_layout()
-#plt.show()
+#Finds average period of y wave        
+period_y = []
+period(count_y, period_y)
+print('The average y period is', end = ' ')
+print(round(avg(period_y), 2))
+
+
