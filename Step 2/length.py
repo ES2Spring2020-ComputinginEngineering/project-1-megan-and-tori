@@ -35,7 +35,7 @@ def graph():
 #main code
 
 #initializes lists
-lengths = np.array([0.2731, 0.3175, 0.3810, 0.4191, 0.4826]) #lengths in meters
+lengths = np.array([0.2070, 0.2710, 0.3140, 0.3750, 0.4130]) #lengths in meters
 periods = [] #periods in seconds
 
 #calls period function for each length in lengths list
