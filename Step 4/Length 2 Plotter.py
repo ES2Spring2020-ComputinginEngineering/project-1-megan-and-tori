@@ -2,13 +2,13 @@
 #Experimental Period Calculations
 #*****************************************
 # YOUR NAME: Victoria Pontikes and Megan Houchin
-# NUMBER OF HOURS TO COMPLETE: 20 minutes
+# NUMBER OF HOURS TO COMPLETE: 5 hours
 
 """
 Created on Tue Mar  3 18:10:17 2020
 @author: megan
 """
-
+#import statements
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -17,7 +17,9 @@ import os
 path = "C:/Users/Victoria/Documents/GitHub/project-1-megan-and-tori/Step 4"
 os.chdir(path)
 
+#function definitions
 def period(count,list):
+    #function that takes  
     for i in range(len(count)):
         if i+1 >= len(count):
             break
@@ -27,6 +29,8 @@ def period(count,list):
     return list
         
 def avg(list):
+    #function averages all the components of a list
+    
     add = 0
     for i in list:
         add = add + i
@@ -68,45 +72,54 @@ for ln in fin: #putting data into 4 lists
 fin.close()
 
 
-# Apply median filter to all waves
+#apply median filter to all waves
 x_filt = sig.medfilt(x_accel)
 y_filt = sig.medfilt(y_accel)
 z_filt = sig.medfilt(z_accel)
           
             
-#Plot waves of accelerations vs time
+#plot waves of accelerations vs time
 plt.figure(1)
-plt.plot(np.array(timez), np.array(x_filt,), 'r-')#, 'r-', np.array(timez[x_pks]), np.array(x_filt[x_pks]), 'b.')
+plt.plot(np.array(timez), np.array(x_filt,), 'r-')
 plt.title('X Acceleration vs Time')
+plt.xlabel('Time (seconds)')
+plt.ylabel('X Acceleration (meters^2/second)')
 
 plt.figure(2)
-plt.plot(np.array(timez), np.array(y_filt), 'g-')#, 'r-', np.array(timez[x_pks]), np.array(x_filt[x_pks]), 'b.')
+plt.plot(np.array(timez), np.array(y_filt), 'g-')
 plt.title('Y Acceleration vs Time')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Y Acceleration (meters^2/second)')
 
 plt.figure(3)
-plt.plot(np.array(timez), np.array(z_filt), 'b-')#, 'r-', np.array(timez[x_pks]), np.array(x_filt[x_pks]), 'b.')
+plt.plot(np.array(timez), np.array(z_filt), 'b-')
 plt.title('Z Acceleration vs Time')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Z Acceleration (meters^2/second)')
 
 #Plots theta vs time
 plt.figure(4)
 plt.plot(np.array(timez), np.array(theta), 'r-')
 plt.title('Theta vs Time')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Theta (degrees)')
 
 plt.tight_layout()
 plt.show()
 
 
-# Find peaks of y wave since y is the direction of motion
+#find peaks of y wave since y is the direction of motion
 #NOTE: height and distance varies based on data (and false peaks in data)
 y_pks, _ = sig.find_peaks(y_filt, height = 140, distance = 20)
 
-
-#Count the amount of y peaks
+#finds at what time y_pks occur and stores them in list count_y
+#find_pks function returns list of imdices of peaks in y_filt, so we index
+#y_pks to find time values where maximums occur
 count_y = []
 for j in y_pks:
         count_y.append(timez[j])
 
-#Finds average period of y wave        
+#finds average period of y wave        
 period_y = []
 period(count_y, period_y)
 print('The average y period is', end = ' ')

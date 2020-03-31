@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+#Project 1 Part 5
+#Numerical Simulation Model
+#*****************************************
+# YOUR NAME: Victoria Pontikes and Megan Houchin
+# NUMBER OF HOURS TO COMPLETE: 2.5 hours
 """
 Created on Sun Mar 22 14:03:04 2020
 
