@@ -5,6 +5,8 @@
 # YOUR NAME: Victoria Pontikes and Megan Houchin
 # NUMBER OF HOURS TO COMPLETE: 5 hours
 
+#NOTE: to plot other experimental data from other lengths, change the fin file
+
 """
 Created on Tue Mar 31 20:01:10 2020
 
@@ -22,7 +24,9 @@ os.chdir(path)
 
 #function definitions
 def period(count,list):
-    #function that takes  
+    #function that finds the difference between each of its values and appends that difference to a blank list
+    #takes two arguments, count list and blank list, and returns the filled in list
+    #this is used to calculate period because our count list stores the time values that all our peaks occur at
     for i in range(len(count)):
         if i+1 >= len(count):
             break
@@ -33,13 +37,16 @@ def period(count,list):
         
 def avg(list):
     #function averages all the components of a list
-    
+    #takes one argument, list, and returns average of all the values in the list
     add = 0
     for i in list:
         add = add + i
     return add/(len(list))
 
 def find_angle_from_horizontal(list):
+    #function finds the angle from the horizontal based on the x accel, y accel, and z accel
+    #takes one argument, a list with all accel values, and returns nothing
+    #appends values found in theta to blank list
     #due to our microbit orientation, the horizontal is dependent on y so all calculations will be based on y
     acc_x = float(list[1])
     acc_y = float(list[2])
@@ -51,18 +58,22 @@ def find_angle_from_horizontal(list):
     tilt_angle = math.atan2(top, bottom)
     tiltY = (tilt_angle * 180) / math.pi
     theta.append(tiltY)
-    #theta is initialized above the function call
+    #blank list theta is initialized above the function call
     
 
-fin = open('length 1.csv',"r")
+fin = open('length 1.csv',"r") #this is changed for each length
 
+#main code
+
+#initializing lists
 timez = []
 x_accel = []
 y_accel = []
 z_accel = []
 theta = []
 
-for ln in fin: #putting data into 4 lists
+for ln in fin: 
+    #putting data into 4 lists (time, x accel, y accel, z accel)
     temp1 = ln.strip()
     temp = ln.split(',')
     timez.append(float(temp[0]))
@@ -70,6 +81,7 @@ for ln in fin: #putting data into 4 lists
     y_accel.append(float(temp[2]))
     z_accel.append(float(temp[3]))
     
+    #finding angle from horizontal at every time
     find_angle_from_horizontal(temp) 
 
 fin.close()
@@ -100,7 +112,7 @@ plt.title('Z Acceleration vs Time')
 plt.xlabel('Time (seconds)')
 plt.ylabel('Z Acceleration (meters^2/second)')
 
-#Plots theta vs time
+#plots theta vs time
 plt.figure(4)
 plt.plot(np.array(timez), np.array(theta), 'r-')
 plt.title('Theta vs Time')
@@ -122,7 +134,7 @@ count_y = []
 for j in y_pks:
         count_y.append(timez[j])
 
-#finds average period of y wave        
+#finds and prints average period of y wave        
 period_y = []
 period(count_y, period_y)
 print('The average y period is', end = ' ')
