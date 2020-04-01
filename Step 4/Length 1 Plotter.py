@@ -1,3 +1,4 @@
+
 #Project 1 Part 4
 #Experimental Period Calculations
 #*****************************************
@@ -5,9 +6,11 @@
 # NUMBER OF HOURS TO COMPLETE: 5 hours
 
 """
-Created on Tue Mar  3 18:10:17 2020
-@author: megan
+Created on Tue Mar 31 20:01:10 2020
+
+@author: Victoria
 """
+
 #import statements
 import matplotlib.pyplot as plt
 import numpy as np
@@ -51,7 +54,7 @@ def find_angle_from_horizontal(list):
     #theta is initialized above the function call
     
 
-fin = open('length 3.csv',"r")
+fin = open('length 1.csv',"r")
 
 timez = []
 x_accel = []
@@ -110,7 +113,7 @@ plt.show()
 
 #find peaks of y wave since y is the direction of motion
 #NOTE: height and distance varies based on data (and false peaks in data)
-y_pks, _ = sig.find_peaks(y_filt, height = 25, distance = 20)
+y_pks, _ = sig.find_peaks(y_filt, height = 60, distance = 20)
 
 #finds at what time y_pks occur and stores them in list count_y
 #find_pks function returns list of imdices of peaks in y_filt, so we index

@@ -42,6 +42,7 @@ periods = [] #periods in seconds
 for i in lengths:
     period(i)
 
+print(periods)
 #plots lengths vs periods
 graph()
 

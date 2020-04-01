@@ -14,7 +14,7 @@ import math
 import matplotlib.pyplot as plt
 import scipy.signal as sig
 
-length = 0.3175
+length = 0.413
 
 def update_system(acc,pos,vel,time1,time2):
     # position and velocity update below
@@ -47,7 +47,7 @@ def avg(list):
 
 
 # initial conditions
-pos = [-math.pi/6]
+pos = [-3*math.pi/4]
 vel = [0]
 acc = [0]
 time = np.linspace(0,20,100000)
@@ -62,10 +62,31 @@ while i < len(time):
     acc.append(accNext)
     i += 1
 
-fig, (axp,axv,axa) = plt.subplots(3, figsize=[10,8])
-axp.plot(time,pos)
-axv.plot(time,vel)
-axa.plot(time,acc)
+#fig, (axp,axv,axa) = plt.subplots(3, figsize=[10,8])
+#axp.plot(time,pos)
+#axv.plot(time,vel)
+#axa.plot(time,acc)
+#plt.show()
+
+plt.figure(1)
+plt.plot(time, pos, 'r-')
+plt.title('Position vs Time')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Angular Position (radians)')
+
+plt.figure(2)
+plt.plot(time, vel, 'b-')
+plt.title('Velocity vs Time')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Angular Velocity (radians/seconds)')
+
+plt.figure(3)
+plt.plot(time, acc, 'g-')
+plt.title('Acceleration vs Time')
+plt.xlabel('Time (seconds)')
+plt.ylabel('Angular Acceleration (radians/seconds^2)')
+
+plt.tight_layout()
 plt.show()
 
 #finds peaks of position function

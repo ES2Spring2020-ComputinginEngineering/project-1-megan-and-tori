@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Mar 31 21:04:39 2020
+
+@author: Victoria
+"""
+
 #Project 1 Part 4
 #Experimental Period Calculations
 #*****************************************
@@ -51,7 +58,7 @@ def find_angle_from_horizontal(list):
     #theta is initialized above the function call
     
 
-fin = open('length 3.csv',"r")
+fin = open('length 4.2.csv',"r")
 
 timez = []
 x_accel = []
