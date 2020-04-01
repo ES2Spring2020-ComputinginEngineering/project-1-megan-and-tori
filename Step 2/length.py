@@ -24,6 +24,8 @@ def period(L):
     return periods
 
 def graph():
+    #function that graphs periods vs length
+    #void function
     plt.figure(1)
     plt.plot(lengths, periods)
     plt.title('Periods (sec) vs Lengths (m)')
